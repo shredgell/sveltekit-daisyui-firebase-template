@@ -1,11 +1,11 @@
 // src/lib/firebase.ts
 
 import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
-// Your Firebase configuration object
+// Firebase configuration using environment variables
 const firebaseConfig = {
 	apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
 	authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -15,6 +15,9 @@ const firebaseConfig = {
 	appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
+// Debugging: Log Firebase Config
+console.log('Firebase Config:', firebaseConfig);
+
 // Initialize Firebase
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
@@ -23,4 +26,8 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-export { auth, db, storage };
+// Initialize Google Auth Provider
+const googleProvider = new GoogleAuthProvider();
+
+// Export the Firebase services and providers
+export { auth, db, storage, googleProvider };

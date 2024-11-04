@@ -5,6 +5,7 @@
 	import { themes } from '$lib/constants/themeData';
 	import { themeChange } from 'theme-change';
 	import { onMount } from 'svelte';
+	import AuthButton from './AuthButton.svelte';
 
 	onMount(() => {
 		// Initialize theme-change globally
@@ -129,6 +130,7 @@
 				</ul>
 			</div>
 		</div>
+		<AuthButton />
 	</div>
 </nav>
 
