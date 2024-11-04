@@ -1,0 +1,1 @@
+# sveltekit-daisyui-firebase-template
