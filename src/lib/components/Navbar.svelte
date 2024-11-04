@@ -6,6 +6,7 @@
 	import { themeChange } from 'theme-change';
 	import { onMount } from 'svelte';
 	import AuthButton from './AuthButton.svelte';
+	import { user, authError } from '$lib/stores/authStore'; // Import the user and authError stores
 
 	onMount(() => {
 		// Initialize theme-change globally
@@ -13,6 +14,14 @@
 	});
 
 	const navLinks = getNavLinks();
+
+	let imageError = false; // Local variable to track image load errors
+
+	// Reactive statement to watch for authentication errors
+	$: if ($authError) {
+		alert($authError); // Display a system alert with the error message
+		authError.set(null); // Clear the error after displaying
+	}
 </script>
 
 <nav class="navbar bg-base-100">
@@ -21,7 +30,7 @@
 		<!-- Mobile Dropdown -->
 		<div class="dropdown">
 			<!-- Hamburger Button: Visible on Small Screens -->
-			<label tabindex="0" class="btn btn-ghost sm:hidden">
+			<label tabindex="0" class="btn btn-ghost md:hidden">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					class="h-5 w-5"
@@ -56,12 +65,12 @@
 	<!-- Navbar End -->
 	<div class="navbar-end">
 		<!-- Skater XL Dropdown -->
-		<div class="dropdown hidden sm:inline-block">
+		<div class="dropdown hidden md:inline-block">
 			<!-- Dropdown Toggle: "Skater XL" -->
-			<label tabindex="0" class="btn btn-ghost flex items-center">
+			<label tabindex="0" class="btn btn-ghost flex items-center md:gap-x-1">
 				<span class="ml-2">Skater XL</span>
 				<svg
-					class=" fill-current transition-transform duration-200"
+					class="fill-current transition-transform duration-200"
 					xmlns="http://www.w3.org/2000/svg"
 					width="20"
 					height="20"
@@ -70,7 +79,7 @@
 					<path d="M7 10l5 5 5-5z" />
 				</svg>
 			</label>
-			<!-- Dropdown Conten -->
+			<!-- Dropdown Content -->
 			<ul tabindex="0" class="menu dropdown-content mt-2 w-52 rounded-box bg-base-100 p-2 shadow">
 				{#each navLinks as link}
 					<li>
@@ -83,12 +92,12 @@
 		<!-- Theme Dropdown -->
 		<div class="dropdown dropdown-end">
 			<!-- Dropdown Toggle: "Theme" -->
-			<label tabindex="0" class="btn btn-ghost flex items-center">
+			<label tabindex="0" class="btn btn-ghost flex items-center md:gap-x-1">
 				<!-- Theme Label -->
-				<span class="ml-2 hidden sm:inline-block">Theme</span>
+				<span class="ml-2 hidden md:inline-block">Theme</span>
 				<!-- Theme Icon: Optional, can be hidden on small screens if navbar-end is hidden -->
 				<svg
-					class="inline-block h-7 w-7 fill-current sm:hidden"
+					class="inline-block h-7 w-7 fill-current md:hidden"
 					viewBox="0 0 24 24"
 					fill="none"
 					xmlns="http://www.w3.org/2000/svg"
@@ -130,7 +139,55 @@
 				</ul>
 			</div>
 		</div>
-		<AuthButton />
+
+		<!-- Account Dropdown with User Avatar or Default SVG -->
+		<div class="dropdown dropdown-end">
+			<!-- Dropdown Toggle: User Avatar or Default SVG -->
+			<label
+				tabindex="0"
+				class="btn btn-ghost flex items-center md:gap-x-1"
+				aria-label="Account Options"
+			>
+				{#if $user && $user.photoURL && !imageError}
+					<img
+						src={$user.photoURL}
+						alt="User Avatar"
+						class="h-7 w-7 rounded-full"
+						on:error={() => {
+							// Fallback to default SVG if image fails to load
+							imageError = true;
+						}}
+					/>
+				{:else}
+					<!-- Default User SVG Icon -->
+					<svg
+						class="h-7 w-7"
+						viewBox="0 0 24 24"
+						fill="currentColor"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z" />
+						<path d="M12 14c-4.418 0-8 1.79-8 4v2h16v-2c0-2.21-3.582-4-8-4z" />
+					</svg>
+				{/if}
+				<!-- Dropdown Arrow -->
+				<svg
+					class="fill-current transition-transform duration-200"
+					xmlns="http://www.w3.org/2000/svg"
+					width="20"
+					height="20"
+					viewBox="0 0 24 24"
+				>
+					<path d="M7 10l5 5 5-5z" />
+				</svg>
+			</label>
+			<!-- Dropdown Content: Account Options -->
+			<ul tabindex="0" class="menu dropdown-content mt-2 w-52 rounded-box bg-base-100 p-2 shadow">
+				<li>
+					<AuthButton />
+				</li>
+			</ul>
+		</div>
 	</div>
 </nav>
 
