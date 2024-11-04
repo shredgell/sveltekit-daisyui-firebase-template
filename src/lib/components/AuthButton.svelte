@@ -1,7 +1,5 @@
-<!-- src/lib/components/AuthButton.svelte -->
-
 <script lang="ts">
-	import { user, login, logout, authError, isLoading } from '$lib/stores/authStore';
+	import { currentUser, login, logout, authError, isLoading } from '$lib/auth';
 
 	// Reactive statement to watch for authentication errors
 	$: if ($authError) {
@@ -10,7 +8,8 @@
 	}
 </script>
 
-{#if $user}
+{#if $currentUser}
+	<a href="/dashboard" class="btn btn-ghost"> Dashboard </a>
 	<button on:click={logout} class="btn btn-ghost" disabled={$isLoading}> Logout </button>
 {:else}
 	<button on:click={login} class="btn btn-ghost" disabled={$isLoading}>
@@ -24,11 +23,11 @@
 				xmlns:xlink="http://www.w3.org/1999/xlink"
 				fill="#000000"
 			>
+				<!-- SVG Paths -->
 				<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
 				<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
 				<g id="SVGRepo_iconCarrier">
 					<title>Google-color</title>
-					<desc>Created with Sketch.</desc>
 					<defs></defs>
 					<g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 						<g id="Color-" transform="translate(-401.000000, -860.000000)">

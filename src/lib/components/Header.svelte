@@ -1,3 +1,5 @@
+<!-- src/lib/components/Header.svelte -->
+
 <script>
 	export let page;
 </script>
@@ -8,7 +10,7 @@
 </svelte:head>
 
 <header>
-	<h1>{page.heading}</h1>
+	<h1>{page.title}</h1>
 	<p>{page.description}</p>
 	<hr />
 </header>

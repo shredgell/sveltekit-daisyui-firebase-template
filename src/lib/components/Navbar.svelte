@@ -6,7 +6,7 @@
 	import { themeChange } from 'theme-change';
 	import { onMount } from 'svelte';
 	import AuthButton from './AuthButton.svelte';
-	import { user, authError } from '$lib/stores/authStore'; // Import the user and authError stores
+	import { currentUser } from '$lib/auth';
 
 	onMount(() => {
 		// Initialize theme-change globally
@@ -16,12 +16,6 @@
 	const navLinks = getNavLinks();
 
 	let imageError = false; // Local variable to track image load errors
-
-	// Reactive statement to watch for authentication errors
-	$: if ($authError) {
-		alert($authError); // Display a system alert with the error message
-		authError.set(null); // Clear the error after displaying
-	}
 </script>
 
 <nav class="navbar bg-base-100">
@@ -49,7 +43,7 @@
 			<!-- Dropdown Content: Visible on Small Screens -->
 			<ul
 				tabindex="0"
-				class="menu-compact menu dropdown-content mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
+				class="menu-compact menu dropdown-content mt-3 w-56 rounded-box bg-base-100 p-2 shadow"
 			>
 				{#each navLinks as link}
 					<li>
@@ -65,9 +59,9 @@
 	<!-- Navbar End -->
 	<div class="navbar-end">
 		<!-- Skater XL Dropdown -->
-		<div class="dropdown hidden md:inline-block">
+		<div class="dropdown dropdown-end hidden md:inline-block">
 			<!-- Dropdown Toggle: "Skater XL" -->
-			<label tabindex="0" class="btn btn-ghost flex items-center md:gap-x-1">
+			<label tabindex="0" class="btn btn-ghost flex items-center gap-0 md:gap-x-1">
 				<span class="ml-2">Skater XL</span>
 				<svg
 					class="fill-current transition-transform duration-200"
@@ -80,7 +74,7 @@
 				</svg>
 			</label>
 			<!-- Dropdown Content -->
-			<ul tabindex="0" class="menu dropdown-content mt-2 w-52 rounded-box bg-base-100 p-2 shadow">
+			<ul tabindex="0" class="menu dropdown-content mt-3 w-56 rounded-box bg-base-100 p-2 shadow">
 				{#each navLinks as link}
 					<li>
 						<a href={link.href} class="btn btn-ghost">{link.name}</a>
@@ -92,7 +86,7 @@
 		<!-- Theme Dropdown -->
 		<div class="dropdown dropdown-end">
 			<!-- Dropdown Toggle: "Theme" -->
-			<label tabindex="0" class="btn btn-ghost flex items-center md:gap-x-1">
+			<label tabindex="0" class="btn btn-ghost flex items-center gap-0 md:gap-x-1">
 				<!-- Theme Label -->
 				<span class="ml-2 hidden md:inline-block">Theme</span>
 				<!-- Theme Icon: Optional, can be hidden on small screens if navbar-end is hidden -->
@@ -121,7 +115,7 @@
 			</label>
 			<!-- Dropdown Content: Theme Options -->
 			<div
-				class="menu dropdown-content max-h-96 w-52 overflow-y-scroll rounded-box bg-base-100 p-2 shadow"
+				class="menu dropdown-content max-h-96 w-56 overflow-y-scroll rounded-box bg-base-100 p-2 shadow"
 			>
 				<ul tabindex="0">
 					{#each themes as theme}
@@ -140,18 +134,18 @@
 			</div>
 		</div>
 
-		<!-- Account Dropdown with User Avatar or Default SVG -->
+		<!-- Account Dropdown with currentUser Avatar or Default SVG -->
 		<div class="dropdown dropdown-end">
-			<!-- Dropdown Toggle: User Avatar or Default SVG -->
+			<!-- Dropdown Toggle: currentUser Avatar or Default SVG -->
 			<label
 				tabindex="0"
-				class="btn btn-ghost flex items-center md:gap-x-1"
+				class="btn btn-ghost flex items-center gap-0 md:gap-x-1"
 				aria-label="Account Options"
 			>
-				{#if $user && $user.photoURL && !imageError}
+				{#if $currentUser && $currentUser.photoURL && !imageError}
 					<img
-						src={$user.photoURL}
-						alt="User Avatar"
+						src={$currentUser.photoURL}
+						alt="currentUser Avatar"
 						class="h-7 w-7 rounded-full"
 						on:error={() => {
 							// Fallback to default SVG if image fails to load
@@ -159,7 +153,7 @@
 						}}
 					/>
 				{:else}
-					<!-- Default User SVG Icon -->
+					<!-- Default currentUser SVG Icon -->
 					<svg
 						class="h-7 w-7"
 						viewBox="0 0 24 24"
@@ -182,7 +176,7 @@
 				</svg>
 			</label>
 			<!-- Dropdown Content: Account Options -->
-			<ul tabindex="0" class="menu dropdown-content mt-2 w-52 rounded-box bg-base-100 p-2 shadow">
+			<ul tabindex="0" class="menu dropdown-content mt-2 w-56 rounded-box bg-base-100 p-2 shadow">
 				<li>
 					<AuthButton />
 				</li>

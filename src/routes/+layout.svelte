@@ -8,7 +8,7 @@
 	<div class="fixed top-0 z-10 w-full">
 		<Navbar />
 	</div>
-	<main class="prose w-full overscroll-none px-4 pb-8 pt-28 lg:prose-xl">
+	<main class="prose w-full overscroll-none px-4 pb-8 pt-20 lg:prose-xl md:pt-28">
 		<slot />
 	</main>
 </div>
