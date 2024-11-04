@@ -1,0 +1,13 @@
+/* src/app.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+	@apply h-full w-full overscroll-none scroll-smooth break-words;
+}
+
+a {
+	@apply hover:no-underline;
+}
