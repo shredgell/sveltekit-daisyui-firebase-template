@@ -1,41 +1,17 @@
+<!-- src/lib/components/Navbar.svelte -->
+
 <script>
 	import { getNavLinks } from '$lib/constants/siteData';
-	const navLinks = getNavLinks();
+	import { themes } from '$lib/constants/themeData';
+	import { themeChange } from 'theme-change';
+	import { onMount } from 'svelte';
 
-	// Array of available themes
-	const themes = [
-		'dark',
-		'cupcake',
-		'bumblebee',
-		'emerald',
-		'corporate',
-		'synthwave',
-		'retro',
-		'cyberpunk',
-		'valentine',
-		'halloween',
-		'garden',
-		'forest',
-		'aqua',
-		'lofi',
-		'pastel',
-		'fantasy',
-		'wireframe',
-		'black',
-		'luxury',
-		'dracula',
-		'cmyk',
-		'autumn',
-		'business',
-		'acid',
-		'lemonade',
-		'night',
-		'coffee',
-		'winter',
-		'dim',
-		'nord',
-		'sunset'
-	];
+	onMount(() => {
+		// Initialize theme-change globally
+		themeChange(false);
+	});
+
+	const navLinks = getNavLinks();
 </script>
 
 <nav class="navbar bg-base-100">
@@ -44,7 +20,7 @@
 		<!-- Mobile Dropdown -->
 		<div class="dropdown">
 			<!-- Hamburger Button: Visible on Small Screens -->
-			<label tabindex="0" class="btn btn-ghost lg:hidden">
+			<label tabindex="0" class="btn btn-ghost sm:hidden">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					class="h-5 w-5"
@@ -73,16 +49,18 @@
 			</ul>
 		</div>
 		<!-- Brand Name: Always Visible -->
-		<a href="/" class="btn btn-ghost ml-2 text-xl normal-case">Skatebit</a>
+		<a href="/" class="btn btn-ghost text-xl normal-case">Skatebit</a>
 	</div>
 
-	<!-- Navbar End: Links and Theme Toggle Dropdown (Large Screens) -->
+	<!-- Navbar End -->
 	<div class="navbar-end">
-		<div class="dropdown dropdown-end">
-			<label tabindex="0" class="btn btn-ghost">
-				Skater XL
+		<!-- Skater XL Dropdown -->
+		<div class="dropdown hidden sm:inline-block">
+			<!-- Dropdown Toggle: "Skater XL" -->
+			<label tabindex="0" class="btn btn-ghost flex items-center">
+				<span class="ml-2">Skater XL</span>
 				<svg
-					class="ml-1 fill-current"
+					class=" fill-current transition-transform duration-200"
 					xmlns="http://www.w3.org/2000/svg"
 					width="20"
 					height="20"
@@ -91,10 +69,11 @@
 					<path d="M7 10l5 5 5-5z" />
 				</svg>
 			</label>
-			<ul tabindex="0" class="menu dropdown-content w-52 rounded-box bg-base-100 p-2 shadow">
+			<!-- Dropdown Conten -->
+			<ul tabindex="0" class="menu dropdown-content mt-2 w-52 rounded-box bg-base-100 p-2 shadow">
 				{#each navLinks as link}
 					<li>
-						<a href={link.href}>{link.name}</a>
+						<a href={link.href} class="btn btn-ghost">{link.name}</a>
 					</li>
 				{/each}
 			</ul>
@@ -102,25 +81,24 @@
 
 		<!-- Theme Dropdown -->
 		<div class="dropdown dropdown-end">
+			<!-- Dropdown Toggle: "Theme" -->
 			<label tabindex="0" class="btn btn-ghost flex items-center">
-				<div class="hidden lg:flex">Theme</div>
+				<!-- Theme Label -->
+				<span class="ml-2 hidden sm:inline-block">Theme</span>
+				<!-- Theme Icon: Optional, can be hidden on small screens if navbar-end is hidden -->
 				<svg
-					class="h-7 w-7 fill-current"
+					class="inline-block h-7 w-7 fill-current sm:hidden"
 					viewBox="0 0 24 24"
 					fill="none"
 					xmlns="http://www.w3.org/2000/svg"
-					><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g
-						id="SVGRepo_tracerCarrier"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					></g><g id="SVGRepo_iconCarrier">
-						<path
-							fill-rule="evenodd"
-							clip-rule="evenodd"
-							d="M10.8468 21.9342C5.86713 21.3624 2 17.1328 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.1565 18.7173 16.7325 15.9135 16.3703C14.2964 16.1614 12.8386 15.9731 12.2619 16.888C11.8674 17.5136 12.2938 18.2938 12.8168 18.8168C13.4703 19.4703 13.4703 20.5297 12.8168 21.1832C12.2938 21.7062 11.5816 22.0186 10.8468 21.9342ZM11.085 6.99976C11.085 7.82818 10.4134 8.49976 9.585 8.49976C8.75658 8.49976 8.085 7.82818 8.085 6.99976C8.085 6.17133 8.75658 5.49976 9.585 5.49976C10.4134 5.49976 11.085 6.17133 11.085 6.99976ZM6.5 13C7.32843 13 8 12.3284 8 11.5C8 10.6716 7.32843 9.99998 6.5 9.99998C5.67157 9.99998 5 10.6716 5 11.5C5 12.3284 5.67157 13 6.5 13ZM17.5 13C18.3284 13 19 12.3284 19 11.5C19 10.6716 18.3284 9.99998 17.5 9.99998C16.6716 9.99998 16 10.6716 16 11.5C16 12.3284 16.6716 13 17.5 13ZM14.5 8.49998C15.3284 8.49998 16 7.82841 16 6.99998C16 6.17156 15.3284 5.49998 14.5 5.49998C13.6716 5.49998 13 6.17156 13 6.99998C13 7.82841 13.6716 8.49998 14.5 8.49998Z"
-						></path>
-					</g></svg
 				>
+					<path
+						fill-rule="evenodd"
+						clip-rule="evenodd"
+						d="M10.8468 21.9342C5.86713 21.3624 2 17.1328 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.1565 18.7173 16.7325 15.9135 16.3703C14.2964 16.1614 12.8386 15.9731 12.2619 16.888C11.8674 17.5136 12.2938 18.2938 12.8168 18.8168C13.4703 19.4703 13.4703 20.5297 12.8168 21.1832C12.2938 21.7062 11.5816 22.0186 10.8468 21.9342ZM11.085 6.99976C11.085 7.82818 10.4134 8.49976 9.585 8.49976C8.75658 8.49976 8.085 7.82818 8.085 6.99976C8.085 6.17133 8.75658 5.49976 9.585 5.49976C10.4134 5.49976 11.085 6.17133 11.085 6.99976ZM6.5 13C7.32843 13 8 12.3284 8 11.5C8 10.6716 7.32843 10 6.5 10C5.67157 10 5 10.6716 5 11.5C5 12.3284 5.67157 13 6.5 13ZM17.5 13C18.3284 13 19 12.3284 19 11.5C19 10.6716 18.3284 10 17.5 10C16.6716 10 16 10.6716 16 11.5C16 12.3284 16.6716 13 17.5 13ZM14.5 8.49998C15.3284 8.49998 16 7.82841 16 6.99998C16 6.17156 15.3284 5.49998 14.5 5.49998C13.6716 5.49998 13 6.17156 13 6.99998C13 7.82841 13.6716 8.49998 14.5 8.49998Z"
+					></path>
+				</svg>
+				<!-- Dropdown Arrow -->
 				<svg
 					class="fill-current transition-transform duration-200"
 					xmlns="http://www.w3.org/2000/svg"
@@ -131,29 +109,36 @@
 					<path d="M7 10l5 5 5-5z" />
 				</svg>
 			</label>
-			<ul
-				tabindex="0"
+			<!-- Dropdown Content: Theme Options -->
+			<div
 				class="menu dropdown-content max-h-96 w-52 overflow-y-scroll rounded-box bg-base-100 p-2 shadow"
 			>
-				<div>
+				<ul tabindex="0">
 					{#each themes as theme}
 						<li>
-							<a data-set-theme={theme} data-act-class="ACTIVE_CLASS">{theme}</a>
+							<a
+								data-set-theme={theme}
+								data-act-class="ACTIVE_CLASS"
+								class="btn btn-ghost"
+								on:click|preventDefault
+							>
+								{theme.charAt(0).toUpperCase() + theme.slice(1)}
+							</a>
 						</li>
 					{/each}
-				</div>
-			</ul>
+				</ul>
+			</div>
 		</div>
 	</div>
 </nav>
 
 <style>
-	/* Optional: Rotate the dropdown arrow when active */
-	.dropdown label svg {
+	/* Rotate the dropdown arrow when active */
+	.dropdown label svg:last-child {
 		transition: transform 0.2s ease-in-out;
 	}
-	.dropdown:hover label svg,
-	.dropdown:focus-within label svg {
+	.dropdown:hover label svg:last-child,
+	.dropdown:focus-within label svg:last-child {
 		transform: rotate(180deg);
 	}
 </style>

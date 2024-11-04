@@ -1,3 +1,5 @@
+<!-- src/lib/components/Footer.svelte -->
+
 <script>
 	import { getNavLinks } from '$lib/constants/siteData';
 

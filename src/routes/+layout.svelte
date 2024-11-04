@@ -2,13 +2,6 @@
 	import '../app.css';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
-	import { onMount } from 'svelte';
-	import { themeChange } from 'theme-change';
-
-	onMount(() => {
-		// Initialize theme-change globally
-		themeChange(false);
-	});
 </script>
 
 <div class="flex min-h-screen w-full flex-col items-center">
