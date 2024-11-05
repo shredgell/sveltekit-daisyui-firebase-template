@@ -2,13 +2,13 @@
 
 export const siteName = {
 	info: {
-		title: 'Website Name',
+		title: 'Website',
 		href: '/'
 	}
 };
 
 export const siteData = {
-	home: {
+	news: {
 		title: 'News',
 		description:
 			'Discover the latest official updates, news, and videos from Skater XL, Session, Skate, and more—all in one place.',
@@ -19,6 +19,17 @@ export const siteData = {
 		description:
 			'Find essential guides and tutorials to help you get started with Skater XL modding.',
 		href: '/guides'
+	},
+	forum: {
+		title: 'Forum',
+		description:
+			'Join the community to discuss Skater XL modding, share your work, and get help with your projects.',
+		href: '/forum'
+	},
+	submit: {
+		title: 'Submit',
+		description: 'Share and rate your favorite Skater XL YouTube videos and clips.',
+		href: '/submit'
 	},
 	links: {
 		title: 'Links',

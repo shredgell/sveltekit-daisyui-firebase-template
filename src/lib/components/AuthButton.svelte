@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { currentUser, login, logout, authError, isLoading } from '$lib/auth';
+	import { currentUser, authError, isLoading } from '$lib/auth/authStore';
+	import { login, logout } from '$lib/auth';
 
 	// Reactive statement to watch for authentication errors
 	$: if ($authError) {

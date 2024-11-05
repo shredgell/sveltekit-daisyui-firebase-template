@@ -1,29 +1,42 @@
 <script lang="ts">
-	import { currentUser, userList, addItem, editItem, deleteItem } from '$lib/auth';
+	import { browser } from '$app/environment';
+	import { onMount, onDestroy } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { onMount } from 'svelte';
-	import type { User } from 'firebase/auth'; // Import User type
+	import {
+		userList,
+		generateUserList,
+		addItem,
+		editItem,
+		deleteItem
+	} from '$lib/firestore/userItemsService';
+	import { currentUser as authUser, initAuth } from '$lib/auth/authService';
+	import type { User } from 'firebase/auth';
+
+	// Initialize authentication on component mount
+	onMount(async () => {
+		if (browser) {
+			initAuth();
+			await generateUserList(); // Fetch user list items on load
+			loading = false;
+		}
+	});
 
 	let loading = true;
 	let newItemText = '';
 	let editItemId: string | null = null;
 	let editItemText = '';
 
-	// Wait for Firebase to finish checking the user state
-	onMount(() => {
-		if (typeof window !== 'undefined') {
-			const unsubscribe = currentUser.subscribe((userValue: User | null) => {
-				// Set loading to false once we have the user state
-				loading = false;
-
-				// If the user is not authenticated, redirect to home
-				if (!userValue) {
-					goto('/');
-				}
-			});
-
-			return () => unsubscribe();
+	// Subscribe to authUser to handle redirection
+	const unsubscribe = authUser.subscribe((user: User | null) => {
+		if (!browser) return; // Only run the redirect on the client side
+		if (!user) {
+			goto('/'); // Redirect if the user is not authenticated
 		}
+	});
+
+	// Clean up subscription on component destroy
+	onDestroy(() => {
+		unsubscribe();
 	});
 
 	// Add item to the list
@@ -62,9 +75,9 @@
 
 {#if loading}
 	<p>Loading...</p>
-{:else if $currentUser}
+{:else if $authUser}
 	<header>
-		<h1>Welcome to your Dashboard, {$currentUser.displayName}!</h1>
+		<h1>Welcome to your Dashboard, {$authUser.displayName}!</h1>
 		<p>Here is some content for authenticated users.</p>
 		<hr />
 	</header>
@@ -87,21 +100,21 @@
 							<input type="text" bind:value={editItemText} class="input input-bordered" />
 							<div>
 								<button on:click={handleSaveEdit} class="btn btn-primary btn-sm">Save</button>
-								<button on:click={() => (editItemId = null)} class="btn btn-neutral btn-sm"
-									>Cancel</button
-								>
+								<button on:click={() => (editItemId = null)} class="btn btn-neutral btn-sm">
+									Cancel
+								</button>
 							</div>
 						</div>
 					{:else}
 						<div class="flex justify-between">
 							<span>{text}</span>
 							<div>
-								<button on:click={() => handleEditItem(id, text)} class="btn btn-warning btn-sm"
-									>Edit</button
-								>
-								<button on:click={() => handleDeleteItem(id)} class="btn btn-error btn-sm"
-									>Delete</button
-								>
+								<button on:click={() => handleEditItem(id, text)} class="btn btn-warning btn-sm">
+									Edit
+								</button>
+								<button on:click={() => handleDeleteItem(id)} class="btn btn-error btn-sm">
+									Delete
+								</button>
 							</div>
 						</div>
 					{/if}

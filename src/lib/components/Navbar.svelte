@@ -6,7 +6,7 @@
 	import { themeChange } from 'theme-change';
 	import { onMount } from 'svelte';
 	import AuthButton from './AuthButton.svelte';
-	import { currentUser } from '$lib/auth';
+	import { currentUser } from '$lib/auth/authService';
 
 	onMount(() => {
 		// Initialize theme-change globally
@@ -120,14 +120,14 @@
 				<ul tabindex="0">
 					{#each themes as theme}
 						<li>
-							<a
+							<button
 								data-set-theme={theme}
 								data-act-class="ACTIVE_CLASS"
 								class="btn btn-ghost"
 								on:click|preventDefault
 							>
 								{theme.charAt(0).toUpperCase() + theme.slice(1)}
-							</a>
+							</button>
 						</li>
 					{/each}
 				</ul>

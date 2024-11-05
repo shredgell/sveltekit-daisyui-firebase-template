@@ -15,7 +15,7 @@ const firebaseConfig = {
 	appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
-// Debugging: Log Firebase Config
+// Debugging: Log Firebase Config (Remove in production)
 console.log('Firebase Config:', firebaseConfig);
 
 // Initialize Firebase
