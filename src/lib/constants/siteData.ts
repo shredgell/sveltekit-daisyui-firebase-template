@@ -1,8 +1,10 @@
 // src/lib/constants/siteData.ts
 
 export const siteName = {
-	name: 'Website Name',
-	abbr: 'WN'
+	info: {
+		title: 'Website Name',
+		href: '/'
+	}
 };
 
 export const siteData = {
@@ -19,7 +21,7 @@ export const siteData = {
 		href: '/guides'
 	},
 	links: {
-		title: 'Helpful Links',
+		title: 'Links',
 		description: 'Helpful links and resources to get you started with Skater XL modding.',
 		href: '/links'
 	},

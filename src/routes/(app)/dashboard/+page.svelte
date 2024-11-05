@@ -55,12 +55,19 @@
 	};
 </script>
 
+<svelte:head>
+	<title>Dashboard</title>
+	<meta name="description" content="Here is some content for authenticated users." />
+</svelte:head>
+
 {#if loading}
 	<p>Loading...</p>
 {:else if $currentUser}
-	<h1>Welcome to your Dashboard, {$currentUser.displayName}!</h1>
-	<p>Here is some content for authenticated users.</p>
-	<hr />
+	<header>
+		<h1>Welcome to your Dashboard, {$currentUser.displayName}!</h1>
+		<p>Here is some content for authenticated users.</p>
+		<hr />
+	</header>
 
 	<div>
 		<h2>Items List</h2>

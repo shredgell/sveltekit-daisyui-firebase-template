@@ -1,7 +1,7 @@
 <!-- src/lib/components/Navbar.svelte -->
 
 <script>
-	import { getNavLinks } from '$lib/constants/siteData';
+	import { getNavLinks, siteName } from '$lib/constants/siteData';
 	import { themes } from '$lib/constants/themeData';
 	import { themeChange } from 'theme-change';
 	import { onMount } from 'svelte';
@@ -53,7 +53,7 @@
 			</ul>
 		</div>
 		<!-- Brand Name: Always Visible -->
-		<a href="/" class="btn btn-ghost text-xl normal-case">Skatebit</a>
+		<a href="/" class="btn btn-ghost text-xl normal-case">{siteName.info.title}</a>
 	</div>
 
 	<!-- Navbar End -->
