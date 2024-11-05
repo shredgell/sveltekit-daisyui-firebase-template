@@ -11,5 +11,5 @@
 	<main class="prose w-full overscroll-none pb-8 pt-24 lg:prose-xl md:pt-28">
 		<slot />
 	</main>
+	<Footer />
 </div>
-<Footer />
